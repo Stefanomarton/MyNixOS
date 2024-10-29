@@ -15,6 +15,14 @@
       ./hardware-configuration.nix
     ];
 
+  nix.gc = {
+  automatic = true;
+  dates = "weekly";
+  options = "--delete-older-than 7d";
+  };
+
+  nix.settings.auto-optimise-store = true;
+
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -45,12 +53,6 @@
     LC_PAPER = "it_IT.UTF-8";
     LC_TELEPHONE = "it_IT.UTF-8";
     LC_TIME = "it_IT.UTF-8";
-  };
-
-  # Configure keymap in X11
-  services.xserver.xkb = {
-    layout = "us";
-    variant = "intl";
   };
 
   # Configure console keymap
@@ -102,7 +104,7 @@ virtualisation.spiceUSBRedirection.enable = true;
   # $ nix search wget
     environment.systemPackages =
 (      with pkgs; [
-     neovim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+     neovim
      kitty
      auctex
      firefox
@@ -126,7 +128,6 @@ virtualisation.spiceUSBRedirection.enable = true;
      OVMFFull
      tree-sitter
      swtpm
-     yazi
      emacsPackages.eglot
      pyprland
      kmonad
@@ -142,11 +143,14 @@ virtualisation.spiceUSBRedirection.enable = true;
      clang
      virt-viewer
      texlive.combined.scheme-full
+     nixfmt-rfc-style
+     jq
 ])
 ++
 (with unstable; [
   emacs30-pgtk
   nemo
+  yazi
 ]);
     
 

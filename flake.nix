@@ -20,7 +20,7 @@
 
           modules = [
             ./configuration.nix
-          ];
+                      ];
           
           specialArgs = {
             inherit unstable;

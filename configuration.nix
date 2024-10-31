@@ -10,15 +10,15 @@
 }:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+  ];
 
   nix.gc = {
-  automatic = true;
-  dates = "weekly";
-  options = "--delete-older-than 7d";
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 7d";
   };
 
   nix.settings.auto-optimise-store = true;
@@ -62,33 +62,46 @@
   users.users.stefanom = {
     isNormalUser = true;
     description = "Stefano Marton";
-    extraGroups = [ "networkmanager" "wheel" "libvirtd" "input" "uinput" ];
-    packages = with pkgs; [];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "libvirtd"
+      "input"
+      "uinput"
+    ];
+    packages = with pkgs; [ ];
   };
-
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
-  
+
   programs.hyprland.enable = true;
 
-    programs.zsh.enable = true;
+  programs.zsh.enable = true;
 
+  virtualisation.libvirtd = {
+    enable = true;
 
-virtualisation.libvirtd.enable = true;
-
-# Enable TPM emulation (optional)
-virtualisation.libvirtd.qemu = {
-  swtpm.enable = true;
-  ovmf.packages = [ pkgs.OVMFFull.fd ];
-};
-
-# Enable USB redirection (optional)
-virtualisation.spiceUSBRedirection.enable = true;
+    # Enable TPM emulation (optional)
+    qemu = {
+      package = unstable.qemu;
+      runAsRoot = true;
+      swtpm.enable = true;
+      ovmf = {
+        packages = [(unstable.OVMF.override {
+          secureBoot = true;
+          tpmSupport = true;
+        }).fd];
+      };
+    };
+  };
+  
+  # Enable USB redirection (optional)
+  virtualisation.spiceUSBRedirection.enable = true;
 
   programs.virt-manager.enable = true;
 
-    services.greetd = {
+  services.greetd = {
     enable = true;
     settings = rec {
       initial_session = {
@@ -98,67 +111,67 @@ virtualisation.spiceUSBRedirection.enable = true;
       default_session = initial_session;
     };
   };
+    services.udev.extraRules = ''
+    KERNEL=="uinput", MODE="0660", GROUP="input", OPTIONS+="static_node=uinput"
+  '';
 
-  
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-    environment.systemPackages =
-(      with pkgs; [
-     neovim
-     kitty
-     auctex
-     firefox
-     git
-     stow
-     anki
-     wallust
-     insync
-     tofi
-     eww
-     zoxide
-     fzf
-     zathura
-     zotero
-     obsidian
-     cliphist
-     unzip
-     zip
-     unrar
-     gnumake
-     OVMFFull
-     tree-sitter
-     swtpm
-     emacsPackages.eglot
-     pyprland
-     kmonad
-     socat
-     wl-clipboard
-     libqalculate
-     ripgrep
-     ripgrep-all
-     lazygit
-     cmake
-     gcc
-     python3
-     clang
-     virt-viewer
-     texlive.combined.scheme-full
-     nixfmt-rfc-style
-     jq
-])
-++
-(with unstable; [
-  emacs30-pgtk
-  nemo
-  yazi
-]);
-    
+  environment.systemPackages =
+    (with pkgs; [
+      neovim
+      kitty
+      auctex
+      firefox
+      git
+      stow
+      anki
+      wallust
+      insync
+      tofi
+      eww
+      zoxide
+      fzf
+      zathura
+      zotero
+      obsidian
+      cliphist
+      unzip
+      zip
+      unrar
+      gnumake
+      OVMFFull
+      tree-sitter
+      swtpm
+      emacsPackages.eglot
+      pyprland
+      socat
+      wl-clipboard
+      libqalculate
+      ripgrep
+      ripgrep-all
+      lazygit
+      cmake
+      gcc
+      python3
+      clang
+      virt-viewer
+      texlive.combined.scheme-full
+      nixfmt-rfc-style
+      jq
+      kmonad
+    ])
+    ++ (with unstable; [
+      emacs30-pgtk
+      nemo
+      yazi
+    ]);
 
   fonts.packages = with pkgs; [
-  julia-mono
-  nerdfonts
-];
-
+    julia-mono
+    nerdfonts
+  ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

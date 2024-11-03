@@ -154,6 +154,7 @@
       lazygit
       cmake
       gcc
+      gh
       python3
       clang
       virt-viewer

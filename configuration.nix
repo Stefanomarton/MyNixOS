@@ -120,51 +120,80 @@
   # $ nix search wget
   environment.systemPackages =
     (with pkgs; [
+      #Editors
       neovim
-      kitty
       auctex
-      firefox
-      git
-      stow
-      anki
-      wallust
-      insync
-      tofi
-      eww
+      emacsPackages.eglot
+      enchant
+      (aspellWithDicts
+        (dicts: with dicts; [en en-computers en-science it]))
+      hunspell
+      hunspellDicts.en_US
+      hunspellDicts.it_IT
+
+      # Terminal and Shell
+      kitty
       zoxide
       fzf
-      zathura
-      zotero
-      obsidian
-      cliphist
-      unzip
-      zip
-      unrar
-      gnumake
-      OVMFFull
-      tree-sitter
-      swtpm
-      emacsPackages.eglot
-      pyprland
+
+      # Programs
+      firefox
+      gparted
+
+      # Git
+      git
+      lazygit
+      gh
+
+      # Tools
+      stow
       socat
-      wl-clipboard
       libqalculate
       ripgrep
       ripgrep-all
-      lazygit
+      jq
+
+      # Productivity
+      anki
+      zathura
+      zotero
+      obsidian
+
+      # DE
+      wallust
+      tofi
+      eww
+      cliphist
+      pyprland
+      wl-clipboard
+      kmonad
+
+      # Files
+      insync
+      unzip
+      zip
+      unrar
+
+      # Programming and compilers
+      gnumake
+      tree-sitter
       cmake
       gcc
-      gh
       python3
       clang
-      virt-viewer
       texlive.combined.scheme-full
       nixfmt-rfc-style
-      jq
-      kmonad
+      
+      # VM
+      OVMFFull
+      swtpm
+      virt-viewer
+      
+      
     ])
     ++ (with unstable; [
       emacs30-pgtk
+      emacsPackages.jinx
       nemo
       yazi
     ]);

@@ -37,6 +37,9 @@
   # Enable networking
   networking.networkmanager.enable = true;
 
+  # Enable polkit 
+  security.polkit.enable = true;
+
   # Set your time zone.
   time.timeZone = "Europe/Rome";
 
@@ -75,7 +78,10 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  programs.hyprland.enable = true;
+  programs.hyprland = { # or wayland.windowManager.hyprland
+    enable = true;
+    xwayland.enable = true;
+  };
 
   programs.zsh.enable = true;
 
@@ -115,6 +121,20 @@
     KERNEL=="uinput", MODE="0660", GROUP="input", OPTIONS+="static_node=uinput"
   '';
 
+     # On NixOS 24.05 or older, this option must be set:
+    sound.enable = false;
+
+    security.rtkit.enable = true;
+    
+    services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    # If you want to use JACK applications, uncomment this
+    #jack.enable = true;
+  };
+
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -139,6 +159,7 @@
       # Programs
       firefox
       gparted
+      spotify
 
       # Git
       git

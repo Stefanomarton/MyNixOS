@@ -39,6 +39,27 @@
 
   # Enable polkit 
   security.polkit.enable = true;
+  services.dbus.enable = true;
+  services.gnome.gnome-keyring.enable = true;
+
+  systemd = {
+  user.services.polkit-gnome-authentication-agent-1 = {
+    description = "polkit-gnome-authentication-agent-1";
+    wantedBy = [ "graphical-session.target" ];
+    wants = [ "graphical-session.target" ];
+    after = [ "graphical-session.target" ];
+    serviceConfig = {
+        Type = "simple";
+        ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
+        Restart = "on-failure";
+        RestartSec = 1;
+        TimeoutStopSec = 10;
+      };
+  };
+   extraConfig = ''
+     DefaultTimeoutStopSec=10s
+   '';
+};
 
   # Set your time zone.
   time.timeZone = "Europe/Rome";
@@ -154,8 +175,12 @@
        STOP_CHARGE_THRESH_BAT0 = 80; # 80 and above it stops charging
 
       };
-};
+    };
+ 
+  hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
 
+  services.blueman.enable = true;
+  hardware.bluetooth.enable = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -194,12 +219,16 @@
       ripgrep
       ripgrep-all
       jq
+      busybox
+      slurp
+      grim
 
       # Productivity
       anki
       zathura
       zotero
       obsidian
+      ticktick
 
       # DE
       wallust
@@ -209,6 +238,8 @@
       pyprland
       wl-clipboard
       kmonad
+      polkit_gnome
+      hyprpaper
 
       # Files
       insync
@@ -244,6 +275,8 @@
     julia-mono
     nerdfonts
   ];
+
+    
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

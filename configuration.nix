@@ -23,12 +23,15 @@
 
   nix.settings.auto-optimise-store = true;
 
-  # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  # Bootloader
 
-  networking.hostName = "laptop"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  boot.loader = {
+    systemd-boot.enable = true;
+    efi.canTouchEfiVariables = true;
+    timeout = 0;
+  };
+
+  networking.hostName = "laptop"; # Define your 
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
@@ -51,7 +54,7 @@
     serviceConfig = {
         Type = "simple";
         ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
-        Restart = "on-failure";
+        Restart = "always";
         RestartSec = 1;
         TimeoutStopSec = 10;
       };
@@ -98,6 +101,10 @@
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
+  services.tailscale = {
+    enable = true;
+    useRoutingFeatures = "both";
+  };
 
   programs.hyprland = { # or wayland.windowManager.hyprland
     enable = true;
@@ -142,9 +149,7 @@
     KERNEL=="uinput", MODE="0660", GROUP="input", OPTIONS+="static_node=uinput"
   '';
 
-     # On NixOS 24.05 or older, this option must be set:
-    sound.enable = false;
-
+     
     security.rtkit.enable = true;
     
     services.pipewire = {
@@ -160,15 +165,10 @@
       enable = true;
       settings = {
         CPU_SCALING_GOVERNOR_ON_AC = "performance";
-        CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
+        CPU_SCALING_GOVERNOR_ON_BAT = "ondemand";
 
-        CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
+        CPU_ENERGY_PERF_POLICY_ON_BAT = "balance_power";
         CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
-
-        CPU_MIN_PERF_ON_AC = 0;
-        CPU_MAX_PERF_ON_AC = 100;
-        CPU_MIN_PERF_ON_BAT = 0;
-        CPU_MAX_PERF_ON_BAT = 20;
 
        #Optional helps save long term battery health
        START_CHARGE_THRESH_BAT0 = 40; # 40 and bellow it starts to charge
@@ -180,6 +180,7 @@
   hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
 
   services.blueman.enable = true;
+ 
   hardware.bluetooth.enable = true;
 
   # List packages installed in system profile. To search, run:
@@ -201,11 +202,13 @@
       kitty
       zoxide
       fzf
+      nushell
 
       # Programs
       firefox
       gparted
       spotify
+      avogadro2
 
       # Git
       git
@@ -222,6 +225,9 @@
       busybox
       slurp
       grim
+      btop
+      atool
+      wireguard-tools
 
       # Productivity
       anki
@@ -256,11 +262,16 @@
       clang
       texlive.combined.scheme-full
       nixfmt-rfc-style
+      cpio
+      meson
+      hyprwayland-scanner
       
       # VM
       OVMFFull
       swtpm
       virt-viewer
+      virglrenderer
+      rustdesk
       
       
     ])

@@ -101,6 +101,7 @@
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
+  
   services.tailscale = {
     enable = true;
     useRoutingFeatures = "both";
@@ -190,7 +191,9 @@
       #Editors
       neovim
       auctex
-      emacsPackages.eglot
+      # emacsPackages.eglot
+      emacs29-pgtk
+      emacsPackages.jinx
       enchant
       (aspellWithDicts
         (dicts: with dicts; [en en-computers en-science it]))
@@ -217,6 +220,7 @@
 
       # Tools
       stow
+      exfatprogs
       socat
       libqalculate
       ripgrep
@@ -228,12 +232,14 @@
       btop
       atool
       wireguard-tools
+      caligula
 
       # Productivity
       anki
       zathura
       zotero
-      obsidian
+      obsidian      
+      ferdium
       ticktick
 
       # DE
@@ -276,10 +282,9 @@
       
     ])
     ++ (with unstable; [
-      emacs30-pgtk
-      emacsPackages.jinx
       nemo
       yazi
+      bitwarden
     ]);
 
   fonts.packages = with pkgs; [

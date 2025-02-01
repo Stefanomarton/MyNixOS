@@ -20,8 +20,9 @@
     dates = "weekly";
     options = "--delete-older-than 7d";
   };
-
+ 
   nix.settings.auto-optimise-store = true;
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   # Bootloader
 
@@ -110,7 +111,9 @@
   programs.hyprland = { # or wayland.windowManager.hyprland
     enable = true;
     xwayland.enable = true;
-  };
+    package = unstable.hyprland;
+    portalPackage = unstable.xdg-desktop-portal-hyprland;
+      };
 
   programs.zsh.enable = true;
 
@@ -211,12 +214,13 @@
       firefox
       gparted
       spotify
-      avogadro2
+      supersonic-wayland
 
       # Git
       git
       lazygit
       gh
+      pavucontrol
 
       # Tools
       stow
@@ -241,6 +245,7 @@
       obsidian      
       ferdium
       ticktick
+      libreoffice-fresh
 
       # DE
       wallust
@@ -258,6 +263,7 @@
       unzip
       zip
       unrar
+      nextcloud-client
 
       # Programming and compilers
       gnumake
@@ -277,14 +283,16 @@
       swtpm
       virt-viewer
       virglrenderer
-      rustdesk
-      
-      
+      # rustdesk
+           
     ])
+    
     ++ (with unstable; [
       nemo
       yazi
       bitwarden
+
+      
     ]);
 
   fonts.packages = with pkgs; [

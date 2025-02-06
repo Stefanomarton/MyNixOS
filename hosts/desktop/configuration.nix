@@ -26,6 +26,8 @@
     "flakes"
   ];
 
+  boot.kernelPackages = pkgs.linuxPackages_zen;
+
   # Bootloader
   boot.loader = {
     systemd-boot.enable = true;
@@ -173,15 +175,21 @@
   hardware.graphics = {
     enable = true;
     enable32Bit = true;
+    # extraPackages = [ pkgs.rocmPackages.clr.icd ];
   };
+  
   hardware.amdgpu.opencl.enable = true;
+  
   hardware.amdgpu.amdvlk.enable = true;
 
   services.ollama = {
     enable = true;
     acceleration = "rocm";
-    package = pkgs.ollama-rocm;
-    rocmOverrideGfx = "10.3.0";
+    environmentVariables = {
+    HCC_AMDGPU_TARGET = "gfx1031"; # used to be necessary, but doesn't seem to anymore
+    HSA_OVERRIDE_GFX_VERSION = "10.3.0";
+  };
+  rocmOverrideGfx = "10.3.1";
   };
 
   services.open-webui.enable = true;
@@ -237,7 +245,6 @@
       busybox
       slurp
       grim
-      btop
       atool
       wireguard-tools
       caligula
@@ -295,12 +302,18 @@
       virglrenderer
       looking-glass-client
 
+      # GPU
+      nvtopPackages.amd
+
+      #LSP
+      nixd
     ])
 
     ++ (with unstable; [
       nemo
       yazi
       bitwarden
+      unstable.btop
     ]);
 
   fonts.packages = with pkgs; [

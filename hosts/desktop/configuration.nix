@@ -1,7 +1,3 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
-
 {
   config,
   pkgs,
@@ -37,12 +33,9 @@
 
   networking.hostName = "desktop";
 
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
   # Enable networking
   networking.networkmanager.enable = true;
+  networking.networkmanager.wifi.powersave = false;
 
   # Enable polkit
   security.polkit.enable = true;
@@ -115,6 +108,10 @@
   };
 
   programs.zsh.enable = true;
+  environment.etc."zshenv".text = ''
+  export ZDOTDIR="$HOME"/.config/zsh
+  export HISTFILE="$XDG_STATE_HOME"/zsh/history
+  '';
 
   virtualisation.libvirtd = {
     enable = true;
@@ -224,7 +221,7 @@
       carapace
 
       # Programs
-      firefox
+      firefox-unwrapped
       gparted
       spotify
       supersonic-wayland
@@ -262,7 +259,7 @@
       ferdium
       ticktick
       libreoffice-fresh
-      rustdesk
+      #rustdesk
 
       # DE
       wallust

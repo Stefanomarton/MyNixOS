@@ -20,9 +20,12 @@
     dates = "weekly";
     options = "--delete-older-than 7d";
   };
- 
+
   nix.settings.auto-optimise-store = true;
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
   # Bootloader
 
@@ -32,7 +35,7 @@
     timeout = 0;
   };
 
-  networking.hostName = "laptop"; # Define your 
+  networking.hostName = "laptop"; # Define your
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
@@ -41,29 +44,29 @@
   # Enable networking
   networking.networkmanager.enable = true;
 
-  # Enable polkit 
+  # Enable polkit
   security.polkit.enable = true;
   services.dbus.enable = true;
   services.gnome.gnome-keyring.enable = true;
 
   systemd = {
-  user.services.polkit-gnome-authentication-agent-1 = {
-    description = "polkit-gnome-authentication-agent-1";
-    wantedBy = [ "graphical-session.target" ];
-    wants = [ "graphical-session.target" ];
-    after = [ "graphical-session.target" ];
-    serviceConfig = {
+    user.services.polkit-gnome-authentication-agent-1 = {
+      description = "polkit-gnome-authentication-agent-1";
+      wantedBy = [ "graphical-session.target" ];
+      wants = [ "graphical-session.target" ];
+      after = [ "graphical-session.target" ];
+      serviceConfig = {
         Type = "simple";
         ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
         Restart = "always";
         RestartSec = 1;
         TimeoutStopSec = 10;
       };
+    };
+    extraConfig = ''
+      DefaultTimeoutStopSec=10s
+    '';
   };
-   extraConfig = ''
-     DefaultTimeoutStopSec=10s
-   '';
-};
 
   # Set your time zone.
   time.timeZone = "Europe/Rome";
@@ -102,18 +105,19 @@
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
-  
+
   services.tailscale = {
     enable = true;
     useRoutingFeatures = "both";
   };
 
-  programs.hyprland = { # or wayland.windowManager.hyprland
+  programs.hyprland = {
+    # or wayland.windowManager.hyprland
     enable = true;
     xwayland.enable = true;
     package = unstable.hyprland;
     portalPackage = unstable.xdg-desktop-portal-hyprland;
-      };
+  };
 
   programs.zsh.enable = true;
 
@@ -126,14 +130,16 @@
       runAsRoot = true;
       swtpm.enable = true;
       ovmf = {
-        packages = [(unstable.OVMF.override {
-          secureBoot = true;
-          tpmSupport = true;
-        }).fd];
+        packages = [
+          (unstable.OVMF.override {
+            secureBoot = true;
+            tpmSupport = true;
+          }).fd
+        ];
       };
     };
   };
-  
+
   # Enable USB redirection (optional)
   virtualisation.spiceUSBRedirection.enable = true;
 
@@ -149,42 +155,41 @@
       default_session = initial_session;
     };
   };
-    services.udev.extraRules = ''
+  services.udev.extraRules = ''
     KERNEL=="uinput", MODE="0660", GROUP="input", OPTIONS+="static_node=uinput"
   '';
 
-     
-    security.rtkit.enable = true;
-    
-    services.pipewire = {
+  security.rtkit.enable = true;
+
+  services.pipewire = {
     enable = true;
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
     # If you want to use JACK applications, uncomment this
     #jack.enable = true;
+  };
+
+  services.tlp = {
+    enable = true;
+    settings = {
+      CPU_SCALING_GOVERNOR_ON_AC = "performance";
+      CPU_SCALING_GOVERNOR_ON_BAT = "ondemand";
+
+      CPU_ENERGY_PERF_POLICY_ON_BAT = "balance_power";
+      CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
+
+      #Optional helps save long term battery health
+      START_CHARGE_THRESH_BAT0 = 40; # 40 and bellow it starts to charge
+      STOP_CHARGE_THRESH_BAT0 = 80; # 80 and above it stops charging
+
     };
+  };
 
-    services.tlp = {
-      enable = true;
-      settings = {
-        CPU_SCALING_GOVERNOR_ON_AC = "performance";
-        CPU_SCALING_GOVERNOR_ON_BAT = "ondemand";
-
-        CPU_ENERGY_PERF_POLICY_ON_BAT = "balance_power";
-        CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
-
-       #Optional helps save long term battery health
-       START_CHARGE_THRESH_BAT0 = 40; # 40 and bellow it starts to charge
-       STOP_CHARGE_THRESH_BAT0 = 80; # 80 and above it stops charging
-
-      };
-    };
- 
   hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
 
   services.blueman.enable = true;
- 
+
   hardware.bluetooth.enable = true;
 
   # List packages installed in system profile. To search, run:
@@ -198,8 +203,14 @@
       emacs29-pgtk
       emacsPackages.jinx
       enchant
-      (aspellWithDicts
-        (dicts: with dicts; [en en-computers en-science it]))
+      (aspellWithDicts (
+        dicts: with dicts; [
+          en
+          en-computers
+          en-science
+          it
+        ]
+      ))
       hunspell
       hunspellDicts.en_US
       hunspellDicts.it_IT
@@ -242,7 +253,7 @@
       anki
       zathura
       zotero
-      obsidian      
+      obsidian
       ferdium
       ticktick
       libreoffice-fresh
@@ -277,30 +288,27 @@
       cpio
       meson
       hyprwayland-scanner
-      
+
       # VM
       OVMFFull
       swtpm
       virt-viewer
       virglrenderer
       # rustdesk
-           
+
     ])
-    
+
     ++ (with unstable; [
       nemo
       yazi
       bitwarden
 
-      
     ]);
 
   fonts.packages = with pkgs; [
     julia-mono
     nerdfonts
   ];
-
-    
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

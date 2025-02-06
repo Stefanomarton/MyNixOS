@@ -19,7 +19,18 @@
           inherit system;
 
           modules = [
-            ./configuration.nix
+            ./hosts/laptop
+                      ];
+          
+          specialArgs = {
+            inherit unstable;
+          };
+        };
+	  desktop  = lib.nixosSystem {
+          inherit system;
+
+          modules = [
+            ./hosts/desktop/configuration.nix
                       ];
           
           specialArgs = {

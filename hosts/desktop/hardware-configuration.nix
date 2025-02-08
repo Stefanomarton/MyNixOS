@@ -32,6 +32,8 @@
   boot.kernelModules = [ "kvm-amd" ];
   boot.kernelParams = [
     "quiet"
+    "splash"
+    "udev.log_level=3"
     "amd_iommu=on"
     "iommu=pt"
     "vfio-pci.ids=1002:67df,1002:aaf0"
@@ -40,6 +42,9 @@
     "ucsi_ccg"
   ];
   boot.extraModulePackages = [ ];
+
+  boot.initrd.verbose = false;
+  boot.consoleLogLevel = 0;
 
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/ce5b1cc9-77ec-4c27-af91-9ee79d6b76f9";

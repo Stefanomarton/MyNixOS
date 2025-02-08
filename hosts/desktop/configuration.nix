@@ -2,6 +2,7 @@
   config,
   pkgs,
   unstable,
+  inputs,
   ...
 }:
 {
@@ -22,6 +23,12 @@
     "flakes"
   ];
 
+  services.emacs = {
+    enable = true;
+    startWithGraphical = true;
+    install = true;
+  };
+
   boot.kernelPackages = pkgs.linuxPackages_zen;
 
   # Bootloader
@@ -37,11 +44,13 @@
   networking.networkmanager.enable = true;
   networking.networkmanager.wifi.powersave = false;
 
+  networking.wireguard.enable = true;
+  
   # Enable polkit
   security.polkit.enable = true;
   services.dbus.enable = true;
   services.gnome.gnome-keyring.enable = true;
-
+  
   systemd = {
     user.services.polkit-gnome-authentication-agent-1 = {
       description = "polkit-gnome-authentication-agent-1";
@@ -56,9 +65,6 @@
         TimeoutStopSec = 10;
       };
     };
-    extraConfig = ''
-      DefaultTimeoutStopSec=10s
-    '';
   };
 
   # Set your time zone.
@@ -109,8 +115,8 @@
 
   programs.zsh.enable = true;
   environment.etc."zshenv".text = ''
-  export ZDOTDIR="$HOME"/.config/zsh
-  export HISTFILE="$XDG_STATE_HOME"/zsh/history
+    export ZDOTDIR="$HOME"/.config/zsh
+    export HISTFILE="$XDG_STATE_HOME"/zsh/history
   '';
 
   virtualisation.libvirtd = {
@@ -151,6 +157,7 @@
       default_session = initial_session;
     };
   };
+  environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
   security.rtkit.enable = true;
 
@@ -174,22 +181,38 @@
     enable32Bit = true;
     # extraPackages = [ pkgs.rocmPackages.clr.icd ];
   };
-  
+
   hardware.amdgpu.opencl.enable = true;
-  
+
   hardware.amdgpu.amdvlk.enable = true;
 
   services.ollama = {
     enable = true;
+    loadModels = [
+      "deepseek-r1:14b"
+    ];
     acceleration = "rocm";
     environmentVariables = {
-    HCC_AMDGPU_TARGET = "gfx1031"; # used to be necessary, but doesn't seem to anymore
-    HSA_OVERRIDE_GFX_VERSION = "10.3.0";
-  };
-  rocmOverrideGfx = "10.3.1";
+      HCC_AMDGPU_TARGET = "gfx1031"; # used to be necessary, but doesn't seem to anymore
+      HSA_OVERRIDE_GFX_VERSION = "10.3.0";
+    };
+    rocmOverrideGfx = "10.3.1";
   };
 
-  services.open-webui.enable = true;
+  services.open-webui = {
+    enable = true;
+    package = unstable.open-webui;
+    environment = {
+      WEBUI_AUTH = "False";
+    };
+  };
+
+  programs.firefox = {
+    enable = true;
+    nativeMessagingHosts.packages =  [
+      pkgs.tridactyl-native
+    ];
+  };
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -221,7 +244,6 @@
       carapace
 
       # Programs
-      firefox-unwrapped
       gparted
       spotify
       supersonic-wayland
@@ -243,23 +265,28 @@
       slurp
       grim
       atool
-      wireguard-tools
       caligula
+      moar
+      kdiskmark
 
       # Audio
       jamesdsp
       pavucontrol
       pamixer
+      playerctl
 
       # Productivity
       anki
       zathura
       zotero
       obsidian
-      ferdium
       ticktick
       libreoffice-fresh
       #rustdesk
+
+      # social
+      ferdium
+      telegram-desktop
 
       # DE
       wallust
@@ -279,18 +306,24 @@
       atool
       nextcloud-client
 
+      # Appearance
+      numix-cursor-theme
+      nwg-look
+
       # Programming and compilers
       gnumake
       tree-sitter
       cmake
       gcc
       python3
+      pyright
       clang
       texlive.combined.scheme-full
       nixfmt-rfc-style
       cpio
       meson
       hyprwayland-scanner
+      hyprcursor
 
       # VM
       OVMFFull
@@ -298,12 +331,15 @@
       virt-viewer
       virglrenderer
       looking-glass-client
+      remmina
 
       # GPU
       nvtopPackages.amd
 
       #LSP
       nixd
+
+      inputs.zen-browser.packages.${system}.default
     ])
 
     ++ (with unstable; [
@@ -313,11 +349,11 @@
       unstable.btop
     ]);
 
-  fonts.packages = with pkgs; [
-    julia-mono
-    nerdfonts
-  ];
+    fonts.packages = with pkgs; [
+      julia-mono
+      nerdfonts
+    ];
 
-  system.stateVersion = "24.05"; # Did you read the comment?
+    system.stateVersion = "24.05"; 
 
 }

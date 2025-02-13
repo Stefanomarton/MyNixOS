@@ -1,18 +1,15 @@
+{config, pkgs, ...}:
 {
-  config,
-  pkgs,
-  unstable,
-  inputs,
-  stylix,
-  ...
-}:
-{
+  home.username = "sm";
+  home.homeDirectory = "/home/sm/";
   stylix.enable = true;
   stylix.autoEnable = false;
   stylix.polarity = "dark";
   stylix.image = ./wallpaper.png;
-  # stylix.targets = {
-  #   # firefox.enable = true;
-  #   # kitty.enable = true;
-  # };
+  stylix.targets = {
+    gtk.enable = true;
+    # kitty.enable = true;
+  };
+  home.stateVersion = "24.11";
+  programs.home-manager.enable = true;
 }

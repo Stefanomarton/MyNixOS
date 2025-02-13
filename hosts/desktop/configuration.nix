@@ -278,11 +278,14 @@
       # Productivity
       anki
       zathura
+      sioyek
       zotero
       obsidian
       ticktick
       libreoffice-fresh
+      jre_minimal
       #rustdesk
+      inkscape
 
       # social
       ferdium
@@ -298,6 +301,7 @@
       kmonad
       polkit_gnome
       hyprpaper
+      gammastep
 
       # Files
       unzip

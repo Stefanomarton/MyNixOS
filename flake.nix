@@ -9,8 +9,7 @@
       url = "github:nix-community/home-manager/release-24.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    stylix.url = "github:danth/stylix";
-
+    stylix.url = "github:danth/stylix/release-24.11";
   };
 
   outputs =
@@ -36,20 +35,6 @@
 
           modules = [
             ./hosts/laptop/configuration.nix
-            ./common/stylix.nix
-            stylix.nixosModules.stylix
-            # make home-manager as a module of nixos
-            # so that home-manager configuration will be deployed automatically when executing `nixos-rebuild switch`
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-
-              # TODO replace ryan with your own username
-              # home-manager.users.sm = import ./home.nix;
-
-              # Optionally, use home-manager.extraSpecialArgs to pass arguments to home.nix
-            }
           ];
 
           specialArgs = {
@@ -62,18 +47,18 @@
 
           modules = [
             ./hosts/desktop/configuration.nix
-            stylix.nixosModules.stylix
+
             # make home-manager as a module of nixos
             # so that home-manager configuration will be deployed automatically when executing `nixos-rebuild switch`
             home-manager.nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;
+              home-manager.backupFileExtension = "backup";
               home-manager.useUserPackages = true;
-
-              # TODO replace ryan with your own username
-              # home-manager.users.sm = import ./home.nix;
-
-              # Optionally, use home-manager.extraSpecialArgs to pass arguments to home.nix
+              home-manager.sharedModules = [
+                  stylix.homeManagerModules.stylix
+                  ./common/stylix.nix
+                ];
             }
           ];
 

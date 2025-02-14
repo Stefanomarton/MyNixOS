@@ -66,7 +66,7 @@
       };
     };
   };
-
+  
   # Set your time zone.
   time.timeZone = "Europe/Rome";
 
@@ -302,6 +302,7 @@
       polkit_gnome
       hyprpaper
       gammastep
+      xdg-desktop-portal-gtk
 
       # Files
       unzip
@@ -311,8 +312,7 @@
       nextcloud-client
 
       # Appearance
-      numix-cursor-theme
-      nwg-look
+      nemo
 
       # Programming and compilers
       gnumake
@@ -347,7 +347,6 @@
     ])
 
     ++ (with unstable; [
-      nemo
       yazi
       bitwarden
       unstable.btop

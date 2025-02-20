@@ -2,9 +2,9 @@
 {
   stylix.enable = true;
   stylix.autoEnable = true;
-  stylix.polarity = "dark";
+  stylix.polarity = "light";
   stylix.image = ./wallpaper.png;
-	# stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/gruber.yaml";
+  stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/everforest-dark-hard.yaml";
   stylix.targets = {
     gtk.enable = true;
     zathura.enable = true;
@@ -15,6 +15,7 @@
     nushell.enable = true;
     yazi.enable = true;
   };
+
   home.stateVersion = "24.11";
   programs.home-manager.enable = true;
 

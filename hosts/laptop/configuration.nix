@@ -288,6 +288,7 @@
       cpio
       meson
       hyprwayland-scanner
+      delta
 
       # VM
       OVMFFull

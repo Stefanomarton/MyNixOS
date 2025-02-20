@@ -55,11 +55,13 @@
               home-manager.useGlobalPkgs = true;
               home-manager.backupFileExtension = "backup";
               home-manager.useUserPackages = true;
-              home-manager.sharedModules = [
-                  stylix.homeManagerModules.stylix
-                  ./common/stylix.nix
-                ];
-            }
+              home-manager.users.sm = { ... }: {
+                imports = [
+                stylix.homeManagerModules.stylix
+                 ./common/stylix.nix
+              ];
+             };
+              }
           ];
 
           specialArgs = {

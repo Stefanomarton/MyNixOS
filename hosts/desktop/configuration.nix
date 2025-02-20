@@ -29,6 +29,8 @@
     install = true;
   };
 
+  services.flatpak.enable = true;
+
   boot.kernelPackages = pkgs.linuxPackages_zen;
 
   # Bootloader
@@ -220,8 +222,9 @@
     (with pkgs; [
       #Editors
       neovim
+      neovide
       auctex
-      emacs29-pgtk
+      emacs30-pgtk
       emacsPackages.jinx
       enchant
       (aspellWithDicts (
@@ -235,6 +238,7 @@
       hunspell
       hunspellDicts.en_US
       hunspellDicts.it_IT
+      plantuml
 
       # Terminal and Shell
       kitty
@@ -245,7 +249,6 @@
 
       # Programs
       gparted
-      spotify
       supersonic-wayland
 
       # Git
@@ -303,6 +306,8 @@
       hyprpaper
       gammastep
       xdg-desktop-portal-gtk
+      vlc
+      xdragon
 
       # Files
       unzip
@@ -328,6 +333,8 @@
       meson
       hyprwayland-scanner
       hyprcursor
+      taplo
+      nodejs_23
 
       # VM
       OVMFFull
@@ -343,7 +350,7 @@
       #LSP
       nixd
 
-      inputs.zen-browser.packages.${system}.default
+      inputs.zen-browser.packages.${system}.specific
     ])
 
     ++ (with unstable; [

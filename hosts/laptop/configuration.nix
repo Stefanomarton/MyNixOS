@@ -1,14 +1,10 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
-
 {
   config,
   pkgs,
   unstable,
+  inputs,
   ...
 }:
-
 {
   imports = [
     # Include the results of the hardware scan.
@@ -192,125 +188,6 @@
   services.blueman.enable = true;
 
   hardware.bluetooth.enable = true;
-
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-  environment.systemPackages =
-    (with pkgs; [
-      #Editors
-      neovim
-      auctex
-      # emacsPackages.eglot
-      emacs29-pgtk
-      emacsPackages.jinx
-      enchant
-      (aspellWithDicts (
-        dicts: with dicts; [
-          en
-          en-computers
-          en-science
-          it
-        ]
-      ))
-      hunspell
-      hunspellDicts.en_US
-      hunspellDicts.it_IT
-
-      # Terminal and Shell
-      kitty
-      zoxide
-      fzf
-      nushell
-
-      # Programs
-      firefox
-      gparted
-      spotify
-      supersonic-wayland
-
-      # Git
-      git
-      lazygit
-      gh
-      pavucontrol
-
-      # Tools
-      stow
-      exfatprogs
-      socat
-      libqalculate
-      ripgrep
-      ripgrep-all
-      jq
-      busybox
-      slurp
-      grim
-      btop
-      atool
-      wireguard-tools
-      caligula
-      delta
-      cmake
-      meson
-      cpio
-      pkg-config
-
-      # Productivity
-      anki
-      zathura
-      zotero
-      obsidian
-      ferdium
-      ticktick
-      libreoffice-fresh
-      rustdesk
-
-      # DE
-      wallust
-      tofi
-      eww
-      cliphist
-      pyprland
-      wl-clipboard
-      kmonad
-      polkit_gnome
-      hyprpaper
-
-      # Files
-      insync
-      unzip
-      zip
-      unrar
-      nextcloud-client
-
-      # Programming and compilers
-      gnumake
-      tree-sitter
-      cmake
-      gcc
-      python3
-      clang
-      texlive.combined.scheme-full
-      nixfmt-rfc-style
-      cpio
-      meson
-      hyprwayland-scanner
-      delta
-
-      # VM
-      OVMFFull
-      swtpm
-      virt-viewer
-      virglrenderer
-      # rustdesk
-
-    ])
-
-    ++ (with unstable; [
-      nemo
-      yazi
-      bitwarden
-    ]);
 
   fonts.packages = with pkgs; [
     julia-mono

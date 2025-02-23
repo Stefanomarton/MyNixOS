@@ -1,3 +1,11 @@
+{
+  config,
+  pkgs,
+  unstable,
+  inputs,
+  ...
+}:
+{
 environment.systemPackages =
     (with pkgs; [
       #Editors
@@ -138,3 +146,4 @@ environment.systemPackages =
       bitwarden
       unstable.btop
     ]);
+}

@@ -65,6 +65,7 @@ environment.systemPackages =
       pavucontrol
       pamixer
       playerctl
+      cmus
 
       # Productivity
       anki
@@ -84,6 +85,7 @@ environment.systemPackages =
 
       # DE
       wallust
+      imv
       tofi
       eww
       cliphist
@@ -96,6 +98,8 @@ environment.systemPackages =
       xdg-desktop-portal-gtk
       vlc
       xdragon
+      peek
+      chromium
 
       # Files
       unzip
@@ -123,6 +127,8 @@ environment.systemPackages =
       hyprcursor
       taplo
       nodejs_23
+      shfmt
+      qmk
 
       # VM
       OVMFFull
@@ -138,7 +144,7 @@ environment.systemPackages =
       #LSP
       nixd
 
-      inputs.zen-browser.packages.${system}.specific
+      inputs.zen-browser.packages.${system}.default
     ])
 
     ++ (with unstable; [

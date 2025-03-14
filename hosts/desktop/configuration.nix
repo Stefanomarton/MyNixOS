@@ -209,6 +209,9 @@
     };
   };
 
+  services.udisks2.enable = true;
+  services.gvfs.enable = true;
+
   programs.firefox = {
     enable = true;
     nativeMessagingHosts.packages =  [

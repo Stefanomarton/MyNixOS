@@ -14,6 +14,9 @@
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
 
+  hardware.enableAllFirmware = true;
+  hardware.enableRedistributableFirmware = true;
+
   boot.initrd.availableKernelModules = [
     "amdgpu"
     "vfio-pci"
@@ -29,7 +32,7 @@
     "vfio_iommu_type1"
     "vfio"
   ];
-  boot.kernelModules = [ "kvm-amd" ];
+  boot.kernelModules = [ "kvm-amd" "iwlwifi"];
   boot.kernelParams = [
     "quiet"
     "splash"
@@ -37,7 +40,11 @@
     "amd_iommu=on"
     "iommu=pt"
     "vfio-pci.ids=1002:67df,1002:aaf0"
+    "disable_11ax=Y"
+    "power_save=0"
+    "iwlmvm.power_scheme=2"
   ];
+  
   boot.blacklistedKernelModules = [
     "ucsi_ccg"
   ];

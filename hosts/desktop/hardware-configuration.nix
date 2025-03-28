@@ -16,6 +16,7 @@
 
   hardware.enableAllFirmware = true;
   hardware.enableRedistributableFirmware = true;
+  hardware.keyboard.qmk.enable = true;
 
   boot.initrd.availableKernelModules = [
     "amdgpu"

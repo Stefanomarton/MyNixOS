@@ -5,6 +5,11 @@
   inputs,
   ...
 }:
+let
+  mytexlive = pkgs.texlive.combine { 
+    inherit (pkgs.texlive) scheme-full beamertheme-arguelles; 
+  };
+in
 {
 environment.systemPackages =
     (with pkgs; [
@@ -27,6 +32,7 @@ environment.systemPackages =
       hunspellDicts.en_US
       hunspellDicts.it_IT
       plantuml
+      mytexlive
 
       # Terminal and Shell
       kitty
@@ -38,6 +44,7 @@ environment.systemPackages =
       # Programs
       gparted
       supersonic-wayland
+      spotify
 
       # Git
       git
@@ -78,6 +85,7 @@ environment.systemPackages =
       jre_minimal
       #rustdesk
       inkscape
+      kicad
 
       # social
       ferdium
@@ -119,7 +127,6 @@ environment.systemPackages =
       python3
       pyright
       clang
-      texlive.combined.scheme-full
       nixfmt-rfc-style
       cpio
       meson
@@ -129,6 +136,10 @@ environment.systemPackages =
       nodejs_23
       shfmt
       qmk
+      pkgsCross.avr.buildPackages.gcc
+      avrdude
+      pico-sdk
+      picotool
 
       # VM
       OVMFFull

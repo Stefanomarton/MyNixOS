@@ -73,6 +73,7 @@ environment.systemPackages =
       pamixer
       playerctl
       cmus
+      mpv
 
       # Productivity
       anki
@@ -86,10 +87,12 @@ environment.systemPackages =
       #rustdesk
       inkscape
       kicad
+      ipe
+      thunderbird
+      solaar
 
       # social
       ferdium
-      telegram-desktop
 
       # DE
       wallust

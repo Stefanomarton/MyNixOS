@@ -219,12 +219,10 @@
     ];
   };
 
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-
     fonts.packages = with pkgs; [
       julia-mono
       nerdfonts
+      lexend
     ];
 
     system.stateVersion = "24.05"; 

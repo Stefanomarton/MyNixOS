@@ -13,8 +13,25 @@ in
   {
 
     programs.thunderbird.enable = true;
+
+      programs.hyprland = {
+    # or wayland.windowManager.hyprland
+    enable = true;
+    xwayland.enable = true;
+    package = unstable.hyprland;
+    portalPackage = unstable.xdg-desktop-portal-hyprland;
+  };
+
+    programs.zsh.enable = true;
+
+      programs.firefox = {
+    enable = true;
+    nativeMessagingHosts.packages =  [
+      pkgs.tridactyl-native
+    ];
+  };
     
-environment.systemPackages =
+home.packages =
     (with pkgs; [
       #Editors
       neovim
@@ -175,4 +192,6 @@ environment.systemPackages =
       unstable.btop
       libreoffice-fresh
     ]);
+
 }
+

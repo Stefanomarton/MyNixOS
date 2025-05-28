@@ -11,6 +11,8 @@
     ./hardware-configuration.nix
   ];
 
+ system.rebuild.enableNg = true;
+
   nix.gc = {
     automatic = true;
     dates = "weekly";
@@ -107,15 +109,6 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  programs.hyprland = {
-    # or wayland.windowManager.hyprland
-    enable = true;
-    xwayland.enable = true;
-    package = unstable.hyprland;
-    portalPackage = unstable.xdg-desktop-portal-hyprland;
-  };
-
-  programs.zsh.enable = true;
   environment.etc."zshenv".text = ''
     export ZDOTDIR="$HOME"/.config/zsh
     export HISTFILE="$XDG_STATE_HOME"/zsh/history
@@ -212,18 +205,11 @@
   services.udisks2.enable = true;
   services.gvfs.enable = true;
 
-  programs.firefox = {
-    enable = true;
-    nativeMessagingHosts.packages =  [
-      pkgs.tridactyl-native
-    ];
-  };
-
     fonts.packages = with pkgs; [
       julia-mono
-      nerdfonts
       lexend
-    ];
+    ]
+      ++ builtins.filter lib.attrsets.isDerivation (builtins.attrValues pkgs.nerd-fonts);
 
     system.stateVersion = "24.05"; 
 

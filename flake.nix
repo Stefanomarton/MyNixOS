@@ -2,14 +2,13 @@
   description = "A simple NixOS flake";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
-    zen-browser.url = "github:MarceColl/zen-browser-flake";
     home-manager = {
-      url = "github:nix-community/home-manager/release-24.11";
+      url = "github:nix-community/home-manager/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    stylix.url = "github:danth/stylix/release-24.11";
+    stylix.url = "github:danth/stylix/release-25.05";
   };
 
   outputs =
@@ -35,7 +34,7 @@
 
           modules = [
             ./hosts/laptop/configuration.nix
-            ./common/packages.nix
+            # ./common/packages.nix
 
             # make home-manager as a module of nixos
             # so that home-manager configuration will be deployed automatically when executing `nixos-rebuild switch`
@@ -46,8 +45,9 @@
               home-manager.useUserPackages = true;
               home-manager.users.stefanom = { ... }: {
                 imports = [
-                stylix.homeManagerModules.stylix
-                 ./common/stylix.nix
+                stylix.homeModules.stylix
+                  ./common/stylix.nix
+                  ./common/programs.nix
               ];
              };
               }
@@ -75,7 +75,7 @@
               home-manager.useUserPackages = true;
               home-manager.users.sm = { ... }: {
                 imports = [
-                stylix.homeManagerModules.stylix
+                stylix.homeModules.stylix
                  ./common/stylix.nix
               ];
              };

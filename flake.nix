@@ -34,7 +34,7 @@
 
           modules = [
             ./hosts/laptop/configuration.nix
-            # ./common/packages.nix
+            ./common/packages.nix
 
             # make home-manager as a module of nixos
             # so that home-manager configuration will be deployed automatically when executing `nixos-rebuild switch`
@@ -47,7 +47,7 @@
                 imports = [
                 stylix.homeModules.stylix
                   ./common/stylix.nix
-                  ./common/programs.nix
+
               ];
              };
               }
@@ -65,21 +65,27 @@
           modules = [
             ./hosts/desktop/configuration.nix
             ./common/packages.nix
-
+        
             # make home-manager as a module of nixos
             # so that home-manager configuration will be deployed automatically when executing `nixos-rebuild switch`
             home-manager.nixosModules.home-manager
             {
-              home-manager.useGlobalPkgs = true;
-              home-manager.backupFileExtension = "backup";
-              home-manager.useUserPackages = true;
-              home-manager.users.sm = { ... }: {
+              home-manager = {
+              useGlobalPkgs = true;
+              backupFileExtension = "backup";
+              useUserPackages = true;
+              users.sm = { ... }: {
                 imports = [
                 stylix.homeModules.stylix
-                 ./common/stylix.nix
+                  ./common/stylix.nix
               ];
-             };
-              }
+              };
+              extraSpecialArgs = {
+                inherit inputs;
+                inherit unstable;
+              };
+              };
+            }
           ];
 
           specialArgs = {

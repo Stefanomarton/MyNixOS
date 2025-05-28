@@ -11,7 +11,9 @@
     ./hardware-configuration.nix
   ];
 
- system.rebuild.enableNg = true;
+  system.rebuild.enableNg = true;
+
+  programs.firefox.enable= true;
 
   nix.gc = {
     automatic = true;
@@ -30,8 +32,6 @@
     startWithGraphical = true;
     install = true;
   };
-
-  services.flatpak.enable = true;
 
   boot.kernelPackages = pkgs.linuxPackages_zen;
 
@@ -113,6 +113,8 @@
     export ZDOTDIR="$HOME"/.config/zsh
     export HISTFILE="$XDG_STATE_HOME"/zsh/history
   '';
+
+  programs.zsh.enable= true;
 
   virtualisation.libvirtd = {
     enable = true;

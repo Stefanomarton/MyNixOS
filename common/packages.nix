@@ -12,7 +12,20 @@ let
 in
   {
 
-    programs.thunderbird.enable = true;
+programs.thunderbird.enable = true;
+
+
+ programs.hyprland = {
+    enable = true;
+    xwayland.enable = true;
+    package = unstable.hyprland;
+    portalPackage = unstable.xdg-desktop-portal-hyprland;
+};
+
+programs.zsh.enable = true;
+programs.firefox = {
+    enable = true;
+  };
     
 environment.systemPackages =
     (with pkgs; [

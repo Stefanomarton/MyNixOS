@@ -69,6 +69,7 @@ environment.systemPackages =
       git
       lazygit
       gh
+      delta
 
       # Tools
       stow

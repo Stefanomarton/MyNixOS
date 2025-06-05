@@ -17,12 +17,22 @@
     options = "--delete-older-than 7d";
   };
 
-  nix.settings.auto-optimise-store = true;
-  nix.settings.experimental-features = [
+  nix.settings = {
+    auto-optimise-store = true;
+    experimental-features = [
     "nix-command"
     "flakes"
-  ];
+    ];
+    substitute = true;
+    substituters = [
+      "https://yazi.cachix.org"
+    ];
+    trusted-public-keys = [
+      "yazi.cachix.org-1:Dcdz63NZKfvUCbDGngQDAZq6kOroIrFoyO064uvLh8k="
+    ];
+  };
 
+  environment.sessionVariables.NIXOS_OZONE_WL = "1";
   # Bootloader
 
   boot.loader = {
@@ -30,6 +40,8 @@
     efi.canTouchEfiVariables = true;
     timeout = 0;
   };
+
+  boot.kernelPackages = pkgs.linuxPackages_zen;
 
   networking.hostName = "laptop"; # Define your
 
@@ -118,6 +130,13 @@
 
   programs.zsh.enable = true;
 
+  environment.etc."zshenv".text = ''
+    export ZDOTDIR="$HOME"/.config/zsh
+    export HISTFILE="$XDG_STATE_HOME"/zsh/history
+  '';
+
+  programs.kdeconnect.enable = true;
+
   virtualisation.libvirtd = {
     enable = true;
 
@@ -189,6 +208,9 @@
 
   hardware.bluetooth.enable = true;
 
+  services.udisks2.enable = true;
+  services.gvfs.enable = true;
+
   fonts.packages = with pkgs; [
     julia-mono
     nerdfonts
@@ -200,6 +222,12 @@ environment.etc = {
     DOWNLOAD="$HOME/inbox"
      '';
 };
+
+
+ environment.systemPackages = with pkgs; [
+    # host-specific packages
+    brightnessctl
+  ];
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

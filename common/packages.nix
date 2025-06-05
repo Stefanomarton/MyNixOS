@@ -1,192 +1,175 @@
-{
-  config,
-  pkgs,
-  unstable,
-  inputs,
-  ...
-}:
+{ config, pkgs, unstable, inputs, ... }:
 let
-  mytexlive = pkgs.texlive.combine { 
-    inherit (pkgs.texlive) scheme-full beamertheme-arguelles; 
+  mytexlive = pkgs.texlive.combine {
+    inherit (pkgs.texlive) scheme-full beamertheme-arguelles;
   };
-in
-  {
+in {
 
-programs.thunderbird.enable = true;
+  programs.thunderbird.enable = true;
 
-
- programs.hyprland = {
+  programs.hyprland = {
     enable = true;
     xwayland.enable = true;
     package = unstable.hyprland;
     portalPackage = unstable.xdg-desktop-portal-hyprland;
-};
-
-programs.zsh.enable = true;
-programs.firefox = {
-    enable = true;
   };
-    
-environment.systemPackages =
-    (with pkgs; [
-      #Editors
-      neovim
-      neovide
-      auctex
-      emacs30-pgtk
-      emacsPackages.jinx
-      enchant
-      (aspellWithDicts (
-        dicts: with dicts; [
-          en
-          en-computers
-          en-science
-          it
-        ]
-      ))
-      hunspell
-      hunspellDicts.en_US
-      hunspellDicts.it_IT
-      plantuml
-      mytexlive
 
-      # Terminal and Shell
-      kitty
-      zoxide
-      fzf
-      nushell
-      carapace
+  programs.zsh.enable = true;
+  programs.firefox = { enable = true; };
 
-      # Programs
-      gparted
-      supersonic-wayland
-      spotify
-      buku
-      kdePackages.kdenlive
-      freecad
+  environment.systemPackages = (with pkgs; [
+    #Editors
+    neovim
+    neovide
+    # auctex
+    # emacsPackages.auctex
+    emacs30-pgtk
+    emacsPackages.jinx
+    enchant
+    (aspellWithDicts (dicts: with dicts; [ en en-computers en-science it ]))
+    hunspell
+    hunspellDicts.en_US
+    hunspellDicts.it_IT
+    plantuml
+    mermaid-cli
+    mytexlive
+    typst
+    typstyle
+    tinymist
 
-      # Git
-      git
-      lazygit
-      gh
-      delta
+    # Terminal and Shell
+    kitty
+    zoxide
+    fzf
+    nushell
+    carapace
 
-      # Tools
-      stow
-      exfatprogs
-      socat
-      libqalculate
-      ripgrep
-      ripgrep-all
-      jq
-      busybox
-      slurp
-      grim
-      atool
-      caligula
-      moar
-      kdiskmark
+    # Programs
+    gparted
+    supersonic-wayland
+    spotify
+    buku
+    kdePackages.kdenlive
+    freecad
+    wtype
 
-      # Audio
-      jamesdsp
-      pavucontrol
-      pamixer
-      playerctl
-      cmus
-      mpv
+    # Git
+    git
+    lazygit
+    gh
+    delta
 
-      # Productivity
-      anki
-      zathura
-      sioyek
-      zotero
-      obsidian
-      ticktick
-      
-      jre_minimal
-      #rustdesk
-      inkscape
-      kicad
-      ipe
-      solaar
+    # Tools
+    stow
+    exfatprogs
+    socat
+    libqalculate
+    ripgrep
+    ripgrep-all
+    jq
+    busybox
+    slurp
+    grim
+    atool
+    caligula
+    moar
+    kdiskmark
 
-      # social
-      ferdium
+    # Audio
+    jamesdsp
+    pavucontrol
+    pamixer
+    playerctl
+    cmus
+    mpv
 
-      # DE
-      wallust
-      imv
-      tofi
-      eww
-      cliphist
-      pyprland
-      wl-clipboard
-      kmonad
-      polkit_gnome
-      hyprpaper
-      gammastep
-      xdg-desktop-portal-gtk
-      vlc
-      xdragon
-      peek
-      chromium
+    # Productivity
+    anki
+    zathura
+    sioyek
+    zotero
+    obsidian
+    ticktick
 
-      #3DPrinting
-      prusa-slicer
-      orca-slicer
+    jre_minimal
+    #rustdesk
+    inkscape
+    kicad
+    ipe
+    solaar
 
-      # Files
-      unzip
-      zip
-      unrar
-      atool
-      nextcloud-client
+    # social
+    ferdium
 
-      # Appearance
-      nemo
+    # DE
+    wallust
+    imv
+    tofi
+    eww
+    cliphist
+    pyprland
+    wl-clipboard
+    kmonad
+    polkit_gnome
+    hyprpaper
+    gammastep
+    xdg-desktop-portal-gtk
+    vlc
+    xdragon
+    peek
+    chromium
 
-      # Programming and compilers
-      gnumake
-      tree-sitter
-      cmake
-      gcc
-      python3
-      pyright
-      clang
-      nixfmt-rfc-style
-      cpio
-      meson
-      hyprwayland-scanner
-      hyprcursor
-      taplo
-      nodejs_24
-      shfmt
-      qmk
-      pkgsCross.avr.buildPackages.gcc
-      avrdude
-      pico-sdk
-      picotool
+    #3DPrinting
+    prusa-slicer
+    orca-slicer
 
-      # VM
-      OVMFFull
-      swtpm
-      virt-viewer
-      virglrenderer
-      looking-glass-client
-      remmina
+    # Files
+    unzip
+    zip
+    unrar
+    atool
+    nextcloud-client
 
-      # GPU
-      nvtopPackages.amd
+    # Appearance
+    nemo
 
-      #LSP
-      nixd
+    # Programming and compilers
+    gnumake
+    tree-sitter
+    cmake
+    gcc
+    python3
+    pyright
+    clang
+    nixfmt-classic
+    cpio
+    meson
+    hyprwayland-scanner
+    hyprcursor
+    taplo
+    nodejs_24
+    shfmt
+    qmk
+    pkgsCross.avr.buildPackages.gcc
+    avrdude
+    pico-sdk
+    picotool
 
-   ])
+    # VM
+    OVMFFull
+    swtpm
+    virt-viewer
+    virglrenderer
+    looking-glass-client
+    remmina
 
-    ++ (with unstable; [
-      yazi
-      bitwarden
-      unstable.btop
-      libreoffice-fresh
-    ]);
+    # GPU
+    nvtopPackages.amd
+
+    #LSP
+    nixd
+
+  ])
+
+    ++ (with unstable; [ yazi bitwarden unstable.btop libreoffice-fresh ]);
 }

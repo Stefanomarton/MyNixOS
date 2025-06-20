@@ -7,6 +7,8 @@ in {
 
   programs.thunderbird.enable = true;
 
+  services.flatpak.enable = true;
+
   programs.hyprland = {
     enable = true;
     xwayland.enable = true;
@@ -90,6 +92,9 @@ in {
     zotero
     obsidian
     ticktick
+
+    #chemistry
+    avogadro2
 
     jre_minimal
     #rustdesk

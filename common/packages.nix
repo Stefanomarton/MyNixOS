@@ -5,6 +5,8 @@ let
   };
 in {
 
+  services.flatpak.enable = true;
+
   programs.thunderbird.enable = true;
 
   services.flatpak.enable = true;
@@ -77,6 +79,10 @@ in {
     moar
     kdiskmark
 
+    # Chemistry
+    avogadro2
+    pdfpc
+
     # Audio
     jamesdsp
     pavucontrol
@@ -99,7 +105,7 @@ in {
     jre_minimal
     #rustdesk
     inkscape
-    kicad
+    #kicad
     ipe
     solaar
 

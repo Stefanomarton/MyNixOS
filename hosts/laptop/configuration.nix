@@ -119,14 +119,6 @@
     useRoutingFeatures = "both";
   };
 
-  programs.hyprland = {
-    # or wayland.windowManager.hyprland
-    enable = true;
-    xwayland.enable = true;
-    package = unstable.hyprland;
-    portalPackage = unstable.xdg-desktop-portal-hyprland;
-  };
-
 
   programs.zsh.enable = true;
 
@@ -211,10 +203,11 @@
   services.udisks2.enable = true;
   services.gvfs.enable = true;
 
-  fonts.packages = with pkgs; [
-    julia-mono
-    nerdfonts
-  ];
+    fonts.packages = with pkgs; [
+      julia-mono
+      lexend
+    ]
+      ++ builtins.filter lib.attrsets.isDerivation (builtins.attrValues pkgs.nerd-fonts);
 
 environment.etc = {
   "xdg/user-dirs.defaults".text = ''

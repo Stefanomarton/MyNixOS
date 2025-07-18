@@ -1,11 +1,4 @@
-{
-  config,
-  pkgs,
-  unstable,
-  inputs,
-  ...
-}:
-{
+{ config, pkgs, unstable, inputs, ... }: {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
@@ -13,7 +6,7 @@
 
   system.rebuild.enableNg = true;
 
-  programs.firefox.enable= true;
+  programs.firefox.enable = true;
 
   nix.gc = {
     automatic = true;
@@ -22,10 +15,7 @@
   };
 
   nix.settings.auto-optimise-store = true;
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-  ];
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   services.emacs = {
     enable = true;
@@ -49,12 +39,12 @@
   networking.networkmanager.wifi.powersave = false;
 
   networking.wireguard.enable = true;
-  
+
   # Enable polkit
   security.polkit.enable = true;
   services.dbus.enable = true;
   services.gnome.gnome-keyring.enable = true;
-  
+
   systemd = {
     user.services.polkit-gnome-authentication-agent-1 = {
       description = "polkit-gnome-authentication-agent-1";
@@ -63,14 +53,15 @@
       after = [ "graphical-session.target" ];
       serviceConfig = {
         Type = "simple";
-        ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
+        ExecStart =
+          "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
         Restart = "always";
         RestartSec = 1;
         TimeoutStopSec = 10;
       };
     };
   };
-  
+
   # Set your time zone.
   time.timeZone = "Europe/Rome";
 
@@ -96,13 +87,7 @@
   users.users.sm = {
     isNormalUser = true;
     description = "Stefano Marton";
-    extraGroups = [
-      "networkmanager"
-      "wheel"
-      "libvirtd"
-      "input"
-      "uinput"
-    ];
+    extraGroups = [ "networkmanager" "wheel" "libvirtd" "input" "uinput" ];
     packages = with pkgs; [ ];
   };
 
@@ -114,7 +99,9 @@
     export HISTFILE="$XDG_STATE_HOME"/zsh/history
   '';
 
-  programs.zsh.enable= true;
+  programs.zsh.enable = true;
+
+  programs.fzf.keybindings = true;
 
   virtualisation.libvirtd = {
     enable = true;
@@ -138,9 +125,8 @@
   # Enable USB redirection (optional)
   virtualisation.spiceUSBRedirection.enable = true;
 
-  systemd.tmpfiles.rules = [
-    "f /dev/shm/looking-glass 0660 sm qemu-libvirtd -"
-  ];
+  systemd.tmpfiles.rules =
+    [ "f /dev/shm/looking-glass 0660 sm qemu-libvirtd -" ];
 
   programs.virt-manager.enable = true;
 
@@ -167,8 +153,6 @@
     #jack.enable = true;
   };
 
-  hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
-
   services.blueman.enable = true;
 
   hardware.bluetooth.enable = true;
@@ -185,12 +169,11 @@
 
   services.ollama = {
     enable = true;
-    loadModels = [
-      "deepseek-r1:14b"
-    ];
+    loadModels = [ "deepseek-r1:14b" ];
     acceleration = "rocm";
     environmentVariables = {
-      HCC_AMDGPU_TARGET = "gfx1031"; # used to be necessary, but doesn't seem to anymore
+      HCC_AMDGPU_TARGET =
+        "gfx1031"; # used to be necessary, but doesn't seem to anymore
       HSA_OVERRIDE_GFX_VERSION = "10.3.0";
     };
     rocmOverrideGfx = "10.3.1";
@@ -199,20 +182,16 @@
   services.open-webui = {
     enable = true;
     package = unstable.open-webui;
-    environment = {
-      WEBUI_AUTH = "False";
-    };
+    environment = { WEBUI_AUTH = "False"; };
   };
 
   services.udisks2.enable = true;
   services.gvfs.enable = true;
 
-    fonts.packages = with pkgs; [
-      julia-mono
-      lexend
-    ]
-      ++ builtins.filter lib.attrsets.isDerivation (builtins.attrValues pkgs.nerd-fonts);
+  fonts.packages = with pkgs;
+    [ julia-mono lexend ] ++ builtins.filter lib.attrsets.isDerivation
+    (builtins.attrValues pkgs.nerd-fonts);
 
-    system.stateVersion = "24.05"; 
+  system.stateVersion = "24.05";
 
 }

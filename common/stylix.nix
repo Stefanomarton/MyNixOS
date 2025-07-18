@@ -1,10 +1,10 @@
-{config, pkgs, home-manager, ...}:
-{
+{ config, pkgs, home-manager, ... }: {
   stylix.enable = true;
   stylix.autoEnable = true;
   stylix.polarity = "light";
   stylix.image = ./wallpaper.png;
-  stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/everforest-dark-hard.yaml";
+  stylix.base16Scheme =
+    "${pkgs.base16-schemes}/share/themes/black-metal-nile.yaml";
   stylix.targets = {
     gtk.enable = true;
     zathura.enable = true;
@@ -26,9 +26,9 @@
     longitude = 9.1553;
     settings = {
       general = {
-        brightness-day=1.0;
-        brightness-night=0.6;
-        adjustment-method="wayland";
+        brightness-day = 1.0;
+        brightness-night = 0.6;
+        adjustment-method = "wayland";
       };
     };
   };

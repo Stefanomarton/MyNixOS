@@ -78,13 +78,14 @@ in {
     caligula
     moar
     kdiskmark
+    aider-chat-full
 
     # Chemistry
     avogadro2
     pdfpc
 
     # Audio
-    jamesdsp
+    easyeffects
     pavucontrol
     pamixer
     playerctl
@@ -101,6 +102,7 @@ in {
 
     #chemistry
     avogadro2
+    fityk
 
     jre_minimal
     #rustdesk
@@ -129,6 +131,7 @@ in {
     xdragon
     peek
     chromium
+    wireguard-tools
 
     #3DPrinting
     prusa-slicer

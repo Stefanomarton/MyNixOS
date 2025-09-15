@@ -111,6 +111,7 @@
       package = unstable.qemu;
       runAsRoot = true;
       swtpm.enable = true;
+      vhostUserPackages = with pkgs; [ virtiofsd ];
       ovmf = {
         packages = [
           (unstable.OVMF.override {

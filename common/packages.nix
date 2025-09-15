@@ -5,8 +5,6 @@ let
   };
 in {
 
-  services.flatpak.enable = true;
-
   programs.thunderbird.enable = true;
 
   services.flatpak.enable = true;
@@ -21,7 +19,12 @@ in {
   programs.zsh.enable = true;
   programs.firefox = { enable = true; };
 
+  programs.coolercontrol.enable = true;
+
   environment.systemPackages = (with pkgs; [
+    # Games
+    lunar-client
+
     #Editors
     neovim
     neovide
@@ -99,6 +102,8 @@ in {
     zotero
     obsidian
     ticktick
+    todoist-electron
+    anydesk
 
     #chemistry
     avogadro2
@@ -130,7 +135,6 @@ in {
     vlc
     xdragon
     peek
-    chromium
     wireguard-tools
 
     #3DPrinting
@@ -185,5 +189,11 @@ in {
 
   ])
 
-    ++ (with unstable; [ yazi bitwarden unstable.btop libreoffice-fresh ]);
+    ++ (with unstable; [
+      yazi
+      bitwarden
+      unstable.btop-rocm
+      libreoffice-fresh
+      chromium
+    ]);
 }

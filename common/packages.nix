@@ -5,8 +5,6 @@ let
   };
 in {
 
-  programs.thunderbird.enable = true;
-
   services.flatpak.enable = true;
 
   programs.hyprland = {
@@ -20,6 +18,10 @@ in {
   programs.firefox = { enable = true; };
 
   programs.coolercontrol.enable = true;
+
+  programs.chromium.enable = true;
+
+  # services.rtkit.enable = true;
 
   environment.systemPackages = (with pkgs; [
     # Games
@@ -40,9 +42,6 @@ in {
     plantuml
     mermaid-cli
     mytexlive
-    typst
-    typstyle
-    tinymist
 
     # Terminal and Shell
     kitty
@@ -82,6 +81,7 @@ in {
     moar
     kdiskmark
     aider-chat-full
+    freerdp
 
     # Chemistry
     avogadro2
@@ -108,6 +108,7 @@ in {
     #chemistry
     avogadro2
     fityk
+    marvin
 
     jre_minimal
     #rustdesk
@@ -131,10 +132,8 @@ in {
     polkit_gnome
     hyprpaper
     gammastep
-    xdg-desktop-portal-gtk
     vlc
     xdragon
-    peek
     wireguard-tools
 
     #3DPrinting
@@ -191,9 +190,13 @@ in {
 
     ++ (with unstable; [
       yazi
-      bitwarden
-      unstable.btop-rocm
+      bitwarden-desktop
+      btop-rocm
       libreoffice-fresh
+      altus
       chromium
+      typst
+      typstyle
+      tinymist
     ]);
 }

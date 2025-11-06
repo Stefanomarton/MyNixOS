@@ -87,7 +87,8 @@
   users.users.sm = {
     isNormalUser = true;
     description = "Stefano Marton";
-    extraGroups = [ "networkmanager" "wheel" "libvirtd" "input" "uinput" ];
+    extraGroups =
+      [ "networkmanager" "wheel" "libvirtd" "input" "uinput" "docker" ];
     packages = with pkgs; [ ];
   };
 
@@ -105,6 +106,7 @@
 
   virtualisation.libvirtd = {
     enable = true;
+    package = unstable.libvirt;
 
     # Enable TPM emulation (optional)
     qemu = {
@@ -129,7 +131,10 @@
   systemd.tmpfiles.rules =
     [ "f /dev/shm/looking-glass 0660 sm qemu-libvirtd -" ];
 
-  programs.virt-manager.enable = true;
+  programs.virt-manager = {
+    enable = true;
+    package = unstable.virt-manager;
+  };
 
   services.greetd = {
     enable = true;
@@ -180,17 +185,21 @@
     rocmOverrideGfx = "10.3.1";
   };
 
-  services.open-webui = {
-    enable = true;
-    package = unstable.open-webui;
-    environment = { WEBUI_AUTH = "False"; };
-  };
+  # services.open-webui = {
+  #   enable = true;
+  #   package = unstable.open-webui;
+  #   environment = { WEBUI_AUTH = "False"; };
+  # };
 
   services.udisks2.enable = true;
   services.gvfs.enable = true;
 
+  # In /etc/nixos/configuration.nix
+  virtualisation.docker = { enable = true; };
+
   fonts.packages = with pkgs;
-    [ julia-mono lexend ] ++ builtins.filter lib.attrsets.isDerivation
+    [ julia-mono lexend alegreya-sans alegreya ]
+    ++ builtins.filter lib.attrsets.isDerivation
     (builtins.attrValues pkgs.nerd-fonts);
 
   system.stateVersion = "24.05";

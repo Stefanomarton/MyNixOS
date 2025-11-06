@@ -12,21 +12,13 @@
   };
 
   outputs =
-    {
-      self,
-      nixpkgs,
-      nixpkgs-unstable,
-      home-manager,
-      stylix,
-      ...
-    }@inputs:
+    { self, nixpkgs, nixpkgs-unstable, home-manager, stylix, ... }@inputs:
     let
       system = "x86_64-linux";
       lib = nixpkgs.lib;
       pkgs = nixpkgs.legacyPackages.${system};
       unstable = nixpkgs-unstable.legacyPackages.${system};
-    in
-    {
+    in {
 
       nixosConfigurations = {
         laptop = lib.nixosSystem {
@@ -45,12 +37,12 @@
               home-manager.useUserPackages = true;
               home-manager.users.stefanom = { ... }: {
                 imports = [
-                stylix.homeModules.stylix
+                  stylix.homeModules.stylix
                   ./common/stylix.nix
 
-              ];
-             };
-              }
+                ];
+              };
+            }
           ];
 
           specialArgs = {
@@ -65,25 +57,22 @@
           modules = [
             ./hosts/desktop/configuration.nix
             ./common/packages.nix
-        
+
             # make home-manager as a module of nixos
             # so that home-manager configuration will be deployed automatically when executing `nixos-rebuild switch`
             home-manager.nixosModules.home-manager
             {
               home-manager = {
-              useGlobalPkgs = true;
-              backupFileExtension = "backup";
-              useUserPackages = true;
-              users.sm = { ... }: {
-                imports = [
-                stylix.homeModules.stylix
-                  ./common/stylix.nix
-              ];
-              };
-              extraSpecialArgs = {
-                inherit inputs;
-                inherit unstable;
-              };
+                useGlobalPkgs = true;
+                backupFileExtension = "backup";
+                useUserPackages = true;
+                users.sm = { ... }: {
+                  imports = [ stylix.homeModules.stylix ./common/stylix.nix ];
+                };
+                extraSpecialArgs = {
+                  inherit inputs;
+                  inherit unstable;
+                };
               };
             }
           ];

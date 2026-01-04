@@ -78,9 +78,8 @@ in {
     grim
     atool
     caligula
-    moar
+    moor
     kdiskmark
-    aider-chat-full
     freerdp
 
     # Chemistry
@@ -121,6 +120,7 @@ in {
     ferdium
 
     # DE
+    vscode
     wallust
     imv
     tofi
@@ -133,7 +133,7 @@ in {
     hyprpaper
     gammastep
     vlc
-    xdragon
+    dragon-drop
     wireguard-tools
 
     #3DPrinting
@@ -189,6 +189,8 @@ in {
   ])
 
     ++ (with unstable; [
+      clickup
+      code-cursor
       yazi
       bitwarden-desktop
       btop-rocm

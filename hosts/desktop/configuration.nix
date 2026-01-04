@@ -17,11 +17,12 @@
   nix.settings.auto-optimise-store = true;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-  services.emacs = {
-    enable = true;
-    startWithGraphical = true;
-    install = true;
-  };
+  # services.emacs = {
+  #   enable = true;
+  #   startWithGraphical = true;
+  #   install = true;
+  #   defaultEditor = true;
+  # };
 
   boot.kernelPackages = pkgs.linuxPackages_zen;
 
@@ -114,14 +115,14 @@
       runAsRoot = true;
       swtpm.enable = true;
       vhostUserPackages = with pkgs; [ virtiofsd ];
-      ovmf = {
-        packages = [
-          (unstable.OVMF.override {
-            secureBoot = true;
-            tpmSupport = true;
-          }).fd
-        ];
-      };
+      # ovmf = {
+      #   packages = [
+      #     (unstable.OVMF.override {
+      #       secureBoot = true;
+      #       tpmSupport = true;
+      #     }).fd
+      #   ];
+      # };
     };
   };
 
@@ -171,8 +172,6 @@
 
   hardware.amdgpu.opencl.enable = true;
 
-  hardware.amdgpu.amdvlk.enable = true;
-
   services.ollama = {
     enable = true;
     loadModels = [ "deepseek-r1:14b" ];
@@ -198,7 +197,7 @@
   virtualisation.docker = { enable = true; };
 
   fonts.packages = with pkgs;
-    [ julia-mono lexend alegreya-sans alegreya ]
+    [ julia-mono lexend alegreya-sans alegreya lexend libertinus ibm-plex ]
     ++ builtins.filter lib.attrsets.isDerivation
     (builtins.attrValues pkgs.nerd-fonts);
 

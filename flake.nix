@@ -16,7 +16,12 @@
     let
       system = "x86_64-linux";
       lib = nixpkgs.lib;
-      pkgs = nixpkgs.legacyPackages.${system};
+      pkgs = import nixpkgs {
+        inherit system;
+        config.allowUnfree = true;
+        # overlays = [ ... ];  # if you have overlays, put them here
+      };
+
       unstable = import nixpkgs-unstable {
         inherit system;
         config = { allowUnfree = true; };
@@ -25,7 +30,7 @@
 
       nixosConfigurations = {
         laptop = lib.nixosSystem {
-          inherit system;
+          inherit system pkgs;
 
           modules = [
             ./hosts/laptop/configuration.nix
@@ -55,7 +60,7 @@
         };
 
         desktop = lib.nixosSystem {
-          inherit system;
+          inherit system pkgs;
 
           modules = [
             ./hosts/desktop/configuration.nix
@@ -66,7 +71,7 @@
             home-manager.nixosModules.home-manager
             {
               home-manager = {
-                useGlobalPkgs = true;
+                useGlobalPkgs = false;
                 backupFileExtension = "backup";
                 useUserPackages = true;
                 users.sm = { ... }: {

@@ -1,11 +1,4 @@
-{
-  config,
-  pkgs,
-  unstable,
-  inputs,
-  ...
-}:
-{
+{ config, pkgs, unstable, inputs, ... }: {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
@@ -19,17 +12,11 @@
 
   nix.settings = {
     auto-optimise-store = true;
-    experimental-features = [
-    "nix-command"
-    "flakes"
-    ];
+    experimental-features = [ "nix-command" "flakes" ];
     substitute = true;
-    substituters = [
-      "https://yazi.cachix.org"
-    ];
-    trusted-public-keys = [
-      "yazi.cachix.org-1:Dcdz63NZKfvUCbDGngQDAZq6kOroIrFoyO064uvLh8k="
-    ];
+    substituters = [ "https://yazi.cachix.org" ];
+    trusted-public-keys =
+      [ "yazi.cachix.org-1:Dcdz63NZKfvUCbDGngQDAZq6kOroIrFoyO064uvLh8k=" ];
   };
 
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
@@ -65,7 +52,8 @@
       after = [ "graphical-session.target" ];
       serviceConfig = {
         Type = "simple";
-        ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
+        ExecStart =
+          "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
         Restart = "always";
         RestartSec = 1;
         TimeoutStopSec = 10;
@@ -101,24 +89,17 @@
   users.users.stefanom = {
     isNormalUser = true;
     description = "Stefano Marton";
-    extraGroups = [
-      "networkmanager"
-      "wheel"
-      "libvirtd"
-      "input"
-      "uinput"
-    ];
+    extraGroups = [ "networkmanager" "wheel" "libvirtd" "input" "uinput" ];
     packages = with pkgs; [ ];
   };
 
   # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
+  # nixpkgs.config.allowUnfree = true;
 
   services.tailscale = {
     enable = true;
     useRoutingFeatures = "both";
   };
-
 
   programs.zsh.enable = true;
 
@@ -194,7 +175,8 @@
     };
   };
 
-  hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
+  hardware.bluetooth.powerOnBoot =
+    true; # powers up the default Bluetooth controller on boot
 
   services.blueman.enable = true;
 
@@ -203,24 +185,22 @@
   services.udisks2.enable = true;
   services.gvfs.enable = true;
 
-    fonts.packages = with pkgs; [
-      julia-mono
-      lexend
-    ]
-      ++ builtins.filter lib.attrsets.isDerivation (builtins.attrValues pkgs.nerd-fonts);
+  fonts.packages = with pkgs;
+    [ julia-mono lexend ] ++ builtins.filter lib.attrsets.isDerivation
+    (builtins.attrValues pkgs.nerd-fonts);
 
-environment.etc = {
-  "xdg/user-dirs.defaults".text = ''
-    DESKTOP="$HOME/.desktop"
-    DOWNLOAD="$HOME/inbox"
-     '';
-};
+  environment.etc = {
+    "xdg/user-dirs.defaults".text = ''
+      DESKTOP="$HOME/.desktop"
+      DOWNLOAD="$HOME/inbox"
+    '';
+  };
 
-
- environment.systemPackages = with pkgs; [
-    # host-specific packages
-    brightnessctl
-  ];
+  environment.systemPackages = with pkgs;
+    [
+      # host-specific packages
+      brightnessctl
+    ];
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

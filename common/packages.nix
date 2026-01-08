@@ -30,6 +30,7 @@ in {
     #Editors
     neovim
     neovide
+    codex
     # auctex
     # emacsPackages.auctex
     emacs30-pgtk
@@ -103,6 +104,7 @@ in {
     ticktick
     todoist-electron
     anydesk
+    anki
 
     #chemistry
     avogadro2
@@ -179,6 +181,7 @@ in {
     virglrenderer
     looking-glass-client
     remmina
+    moonlight-qt
 
     # GPU
     nvtopPackages.amd

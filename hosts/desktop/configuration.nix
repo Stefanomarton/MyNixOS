@@ -2,7 +2,16 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    ./network.nix
   ];
+
+  networking.hostName = "desktop";
+
+  # Enable networking
+  # networking.networkmanager.enable = true;
+  # networking.networkmanager.wifi.powersave = false;
+
+  # networking.wireguard.enable = true;
 
   system.rebuild.enableNg = true;
 
@@ -33,13 +42,6 @@
     timeout = 0;
   };
 
-  networking.hostName = "desktop";
-
-  # Enable networking
-  networking.networkmanager.enable = true;
-  networking.networkmanager.wifi.powersave = false;
-
-  networking.wireguard.enable = true;
 
   # Enable polkit
   security.polkit.enable = true;
@@ -89,12 +91,12 @@
     isNormalUser = true;
     description = "Stefano Marton";
     extraGroups =
-      [ "networkmanager" "wheel" "libvirtd" "input" "uinput" "docker" ];
+      [ "networkmanager" "wheel" "libvirtd" "input" "uinput" ];
     packages = with pkgs; [ ];
   };
 
   # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
+  # nixpkgs.config.allowUnfree = true;
 
   environment.etc."zshenv".text = ''
     export ZDOTDIR="$HOME"/.config/zsh
@@ -192,9 +194,6 @@
 
   services.udisks2.enable = true;
   services.gvfs.enable = true;
-
-  # In /etc/nixos/configuration.nix
-  virtualisation.docker = { enable = true; };
 
   fonts.packages = with pkgs;
     [ julia-mono lexend alegreya-sans alegreya lexend libertinus ibm-plex ]

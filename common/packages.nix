@@ -21,6 +21,12 @@ in {
 
   programs.chromium.enable = true;
 
+  programs.direnv = {
+    enable = true;
+    silent = true;
+    nix-direnv.enable = true;
+  };
+
   # services.rtkit.enable = true;
 
   environment.systemPackages = (with pkgs; [
@@ -35,6 +41,7 @@ in {
     # emacsPackages.auctex
     emacs30-pgtk
     emacsPackages.jinx
+    emacs-lsp-booster
     enchant
     (aspellWithDicts (dicts: with dicts; [ en en-computers en-science it ]))
     hunspell
@@ -137,6 +144,7 @@ in {
     vlc
     dragon-drop
     wireguard-tools
+    libnotify
 
     #3DPrinting
     prusa-slicer
@@ -182,6 +190,7 @@ in {
     looking-glass-client
     remmina
     moonlight-qt
+    rpi-imager
 
     # GPU
     nvtopPackages.amd

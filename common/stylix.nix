@@ -32,4 +32,14 @@
       };
     };
   };
+
+  services.dunst = {
+    enable = true;
+    settings = {
+      global = {
+        monitor = 2;
+        mouse_left_click = [ "do_action" "close_current" ];
+      };
+    };
+  };
 }

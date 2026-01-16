@@ -2,13 +2,13 @@
 
 {
   networking = {
+    hostName = "desktop";
     useNetworkd = false;
     useDHCP = false;
 
     bridges = {
       br0 = {
         interfaces = [ "enp6s0" ];
-        rstp = true;
       };
     };
 
@@ -59,8 +59,8 @@
 
     # Default route ONLY on vlan40
     defaultGateway = {
-      address = "192.168.40.1";
-      interface = "vlan40";
+      address = "10.1.0.1";
+      interface = "br0";
     };
 
     nameservers = [ "1.1.1.1" "8.8.8.8" ];

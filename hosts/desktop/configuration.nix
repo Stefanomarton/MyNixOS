@@ -5,14 +5,6 @@
     ./network.nix
   ];
 
-  networking.hostName = "desktop";
-
-  # Enable networking
-  # networking.networkmanager.enable = true;
-  # networking.networkmanager.wifi.powersave = false;
-
-  # networking.wireguard.enable = true;
-
   system.rebuild.enableNg = true;
 
   programs.firefox.enable = true;
@@ -47,6 +39,7 @@
   security.polkit.enable = true;
   services.dbus.enable = true;
   services.gnome.gnome-keyring.enable = true;
+
 
   systemd = {
     user.services.polkit-gnome-authentication-agent-1 = {
@@ -117,14 +110,6 @@
       runAsRoot = true;
       swtpm.enable = true;
       vhostUserPackages = with pkgs; [ virtiofsd ];
-      # ovmf = {
-      #   packages = [
-      #     (unstable.OVMF.override {
-      #       secureBoot = true;
-      #       tpmSupport = true;
-      #     }).fd
-      #   ];
-      # };
     };
   };
 
